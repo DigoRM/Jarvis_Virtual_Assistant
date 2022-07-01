@@ -1,7 +1,25 @@
 import pyttsx3 # Transform text to voice
 engine =pyttsx3.init()
-import speech_recognition as sr # Transform voice into text
+import speech_recognition as sr
+sr.__version__ # Transform voice into text
 from datetime import datetime as dt
+
+# Função para o assistente me ouvir :)
+def commandMic():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Estou te ouvindo querido...")
+        r.pause_threeshold = 1
+        audio = r.listen(source)
+    try:
+        print("Traduzindo...")
+        query = r.recognize_google(audio, language="pt-BR")
+        print(query)
+    except Exception as e:
+        print(e)
+        speak("Não entendi, fale novamente por favor?")
+        return "None"
+    return query
 
 
 
@@ -46,40 +64,18 @@ def wish():
     greeting()
     speak("Como posso te ajudar?")
 
-########## Função para o assistente receber comandos do terminal CMD
-#########def commandCMD():
-#########    query = input("Como posso te ajudar?")
-#########    return query
-
 # Função para executar o código somente se o arquivo é executado diretamente, não importado.
 if __name__ == "__main__":
     wish()
 
     while True:
-        query = commandCMD().lower()
+        query = commandMic().lower()
         
         if 'hora' or 'horario' in query:
             time()        
 
         elif 'dia' or 'data' in query:
             date()
-
-# Função para o assistente me ouvir :)
-def commandMic():
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        print("Estou te ouvindo querido...")
-        r.pause_threeshold = 1
-        audio = r.listen(source)
-    try:
-        print("Traduzindo...")
-        query = r.recognize_google(audio, language="pt-BR")
-        print(query)
-    except Exception as e:
-        print(e)
-        speak("Não entendi, fale novamente por favor?")
-        return "None"
-    return query
 
 
 
